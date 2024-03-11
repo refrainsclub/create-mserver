@@ -1,3 +1,4 @@
+import { changeFilePermissions } from "~/utils/changeFilePermissions.js";
 import { writeFile } from "~/utils/writeFile.js";
 
 const aikarFlags =
@@ -29,16 +30,21 @@ export async function createStartScripts(
 
   switch (platform) {
     case "darwin":
+      const commandPath = `${path}/start.command`;
       await writeFile(
-        `${path}/start.command`,
+        commandPath,
         `#!/bin/sh\ncd "$(dirname "$0")"\nexec ${javaCommand}`,
       );
+      await changeFilePermissions(commandPath, 0o755);
       break;
     case "win32":
-      await writeFile(`${path}/start.bat`, `@echo off\n${javaCommand}\npause`);
+      const batPath = `${path}/start.bat`;
+      await writeFile(batPath, `@echo off\n${javaCommand}\npause`);
       break;
     default:
-      await writeFile(`${path}/start.sh`, `#!/bin/sh\n${javaCommand}`);
+      const shPath = `${path}/start.sh`;
+      await writeFile(shPath, `#!/bin/sh\n${javaCommand}`);
+      await changeFilePermissions(shPath, 0o755);
       break;
   }
 }

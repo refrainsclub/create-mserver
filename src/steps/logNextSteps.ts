@@ -17,14 +17,12 @@ export function logNextSteps(path: string) {
 
   switch (process.platform) {
     case "darwin":
-      logger.info("  chmod +x ./start.command");
       logger.info("  ./start.command");
       break;
     case "win32":
       logger.info("  ./start.bat");
       break;
     default:
-      logger.info("  chmod +x ./start.sh");
       logger.info("  ./start.sh");
       break;
   }
