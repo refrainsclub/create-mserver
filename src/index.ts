@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { runCli } from "./cli/index.js";
 import { downloadServer } from "./steps/downloadServer.js";
 import { agreeToEula } from "./steps/agreeToEula.js";

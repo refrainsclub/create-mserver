@@ -2,7 +2,31 @@
   "name": "create-mserver",
   "version": "1.0.0",
   "description": "Spin up Paper servers with ease",
+  "author": "James Blair",
+  "license": "MIT",
+  "keywords": [
+    "create-mserver",
+    "papermc"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/refrainsclub/create-mserver.git"
+  },
   "type": "module",
+  "exports": "./dist/index.js",
+  "bin": {
+    "create-mserver": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "package.json",
+    "pnpm-lock.yaml"
+  ],
+  "engines": {
+    "node": ">=18.17.0"
+  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
