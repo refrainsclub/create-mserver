@@ -1,5 +1,7 @@
 import * as p from "@clack/prompts";
 import { type Version } from "~/utils/serverVersions.js";
+import { validateMemory } from "~/utils/validateMemory.js";
+import { validateName } from "~/utils/validateName.js";
 
 interface CliResults {
   path: string;
@@ -8,30 +10,13 @@ interface CliResults {
   useAikarFlags: boolean;
 }
 
-const pathRegex = /^(?:@[a-z0-9-*~][a-z0-9-*._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/;
-const memoryRegex = /^[0-9]+[MG]$/;
-
 export async function runCli(): Promise<CliResults> {
   const server = await p.group(
     {
-      path: () =>
+      name: () =>
         p.text({
           message: "What will your server be called?",
-          validate(value) {
-            if (value === ".") {
-              return;
-            }
-
-            if (value.endsWith("/")) {
-              return "No trailing slashes";
-            }
-
-            if (!pathRegex.test(value)) {
-              return "Invalid server name";
-            }
-
-            return;
-          },
+          validate: validateName,
         }),
       version: () =>
         p.select({
@@ -47,13 +32,7 @@ export async function runCli(): Promise<CliResults> {
         p.text({
           message: "How much memory to allocate?",
           initialValue: "2G",
-          validate(value) {
-            if (!memoryRegex.test(value)) {
-              return "Enter a valid amount of memory!";
-            }
-
-            return;
-          },
+          validate: validateMemory,
         }),
       useAikarFlags: () =>
         p.select({
@@ -75,7 +54,7 @@ export async function runCli(): Promise<CliResults> {
   console.log();
 
   return {
-    path: server.path,
+    path: server.name,
     version: server.version as Version,
     memory: server.memory,
     useAikarFlags: server.useAikarFlags === "yes",
