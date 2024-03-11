@@ -51,8 +51,6 @@ export async function runCli(): Promise<CliResults> {
     },
   );
 
-  console.log();
-
   return {
     path: server.name,
     version: server.version as Version,

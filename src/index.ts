@@ -9,6 +9,10 @@ import { renderTitle } from "./utils/renderTitle.js";
 renderTitle();
 
 const res = await runCli();
+
+// Add a new line to space between the next section
+console.log();
+
 const serverFileName = "server.jar";
 
 await downloadServer(res.path, serverFileName, res.version);
